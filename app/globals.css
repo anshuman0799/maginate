@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .nav-item {
+    @apply px-4 py-1 rounded-lg text-white text-sm md:text-lg font-semibold bg-green-700 md:w-[200px] md:h-[45px];
+  }
+}
