@@ -24,8 +24,13 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: "var(--font-sans)",
-        serif: "var(--font-serif)",
+        bodyFont: ["Poppins", "sans-serif"],
+        titleFont: ["Montserrat", "sans-serif"],
+      },
+      colors: {
+        bodyColor: "#101827",
+        lightText: "#0d0d0d",
+        designColor: "#388E3C",
       },
     },
   },

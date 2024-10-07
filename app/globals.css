@@ -1,9 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   .nav-item {
-    @apply px-4 py-1 rounded-lg text-white text-sm md:text-lg font-semibold bg-green-700 md:w-[200px] md:h-[45px];
+    @apply px-4 py-1 rounded-lg text-white text-sm md:text-lg font-semibold bg-designColor flex items-center space-x-2;
   }
 }

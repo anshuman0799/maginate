@@ -2,19 +2,21 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+// Import the icons from react-icons
+import { FaCompass, FaMagic } from "react-icons/fa";
 
 export const Navbar = () => {
   const [activeNav, setActiveNav] = useState("generate");
   const router = useRouter();
 
   const handleToggleNav = () => {
-    const newNav = activeNav === "generate" ? "community" : "generate";
+    const newNav = activeNav === "generate" ? "explore" : "generate";
     setActiveNav(newNav);
 
     if (newNav === "generate") {
       router.push("/");
-    } else if (newNav === "community") {
-      router.push("/community-posts");
+    } else if (newNav === "explore") {
+      router.push("/explore");
     }
   };
 
@@ -28,11 +30,13 @@ export const Navbar = () => {
         <nav>
           {activeNav === "generate" ? (
             <button className="nav-item" onClick={handleToggleNav}>
-              Generate Art
+              <FaCompass />
+              <span>Explore</span>
             </button>
           ) : (
             <button className="nav-item" onClick={handleToggleNav}>
-              Community Posts
+              <FaMagic />
+              <span>Generate</span>
             </button>
           )}
         </nav>
