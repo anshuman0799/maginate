@@ -1,12 +1,20 @@
 "use client";
 import React, { useState } from "react";
+import AdvancedMode from "./AdvanceMode";
+import { RiPencilFill } from "react-icons/ri";
+import { FaMagic } from "react-icons/fa";
 
 const GenerateForm = () => {
   const [prompt, setPrompt] = useState("");
-  const [author, setAuthor] = useState("");
+  //   const [author, setAuthor] = useState("");
+
+  const handleGenerate = () => {};
+
+  const handlePost = () => {};
 
   return (
-    <div className="w-full lg:w-1/2 flex flex-col gap-5 md:gap-10">
+    <div className="w-full lg:w-2/5 flex flex-col gap-5 md:gap-10">
+      {/* Heading Area */}
       <div className="flex flex-col gap-3 lgl:gap-8">
         <h1 className="text-2xl md:text-3xl font-titleFont text-left leading-6">
           Craft Stunning Visuals from Your Imagination
@@ -24,7 +32,9 @@ const GenerateForm = () => {
         </p>
       </div>
 
+      {/* Text-area */}
       <div className="flex flex-col gap-5">
+        {/* Prompt Text-area */}
         <div className="flex flex-col gap-2">
           {" "}
           <label
@@ -47,7 +57,8 @@ const GenerateForm = () => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-2">
+        {/* Author text-area */}
+        {/* <div className="flex flex-col gap-2">
           {" "}
           <label htmlFor="author" className="text-xs font-medium text-white/90">
             Author{" "}
@@ -64,7 +75,22 @@ const GenerateForm = () => {
           <p className="text-xs text-gray-400">
             {author.length}/{10} characters
           </p>
-        </div>
+        </div> */}
+      </div>
+
+      {/* Advanced Mode Settings */}
+      <AdvancedMode></AdvancedMode>
+
+      {/* Submit buttons */}
+      <div className="flex gap-4 mt-4">
+        <button className="btnGenerate" onClick={handleGenerate}>
+          <FaMagic />
+          <span>Create Image </span>
+        </button>
+        <button className="btnPost" onClick={handlePost}>
+          <RiPencilFill />
+          <span>Post Image </span>
+        </button>
       </div>
     </div>
   );
