@@ -4,7 +4,19 @@
 @tailwind utilities;
 
 @layer base {
-  .nav-item {
+  .navItem {
     @apply px-4 py-1 rounded-lg text-white text-sm md:text-lg font-semibold bg-designColor flex items-center space-x-2;
+  }
+
+  .navbar {
+    @apply flex justify-end items-center size-full p-7 lg:px-40;
+  }
+
+  .logoImage {
+    @apply pt-8 md:pt-10 px-4 md:px-6;
+  }
+
+  .navContainer {
+    @apply flex size-full bg-gray-800;
   }
 }
