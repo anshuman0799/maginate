@@ -99,7 +99,9 @@ const AdvancedMode = () => {
       </div>
 
       {isOpen && (
-        <div className="flex flex-col gap-0 md:gap-2 mt-1">
+        <div
+          className={`flex flex-col gap-5 mt-3 transition-all duration-500 ease-in-out overflow-hidden`}
+        >
           {/* Image Format Selection */}
           <div className="flex flex-col gap-2 p-4 pt-0">
             <label className="text-xs font-medium text-white/90">

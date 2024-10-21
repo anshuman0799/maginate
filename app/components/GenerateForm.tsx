@@ -17,15 +17,17 @@ const GenerateForm = () => {
       {/* Heading Area */}
       <div className="flex flex-col gap-3 lgl:gap-8">
         <h1 className="text-2xl md:text-3xl font-titleFont text-left leading-6">
-          Craft Stunning Visuals from Your Imagination
+          Craft Stunning Visuals
         </h1>
         <h1 className="text-2xl md:text-3xl font-titleFont text-left leading-6">
-          with
+          From Your Imagination
+        </h1>
+        <h1 className="text-2xl md:text-3xl font-titleFont text-left leading-6">
+          With
           <span className="text-designColor font-bold capitalize">
             {" "}
-            Artificial Intelligence{" "}
+            Artificial Intelligence .
           </span>
-          .
         </h1>
         <p className="text-sm md:text-lg text-left font-bodyFont text-white/90 leading-6 tracking-wide py-5">
           Guide the Magic: Write Your Prompt for the Image You Want
