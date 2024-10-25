@@ -1,26 +1,54 @@
 import React, { useState } from "react";
 import { LuSettings2 } from "react-icons/lu";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-const AdvancedMode = () => {
+
+// Define the prop types
+interface AdvancedModeProps {
+  setSelectedRatio: (ratio: string) => void;
+  setNumImages: (num: number) => void;
+  setImgQuality: (quality: number) => void;
+  setImgFormat: (format: string) => void;
+  initialNumImages?: number; // Optional prop for initial value
+}
+
+const AdvancedMode: React.FC<AdvancedModeProps> = ({
+  setSelectedRatio,
+  setNumImages,
+  setImgQuality,
+  setImgFormat,
+  initialNumImages = 1, // Set default value if not provided
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState("Square");
-  const [selectedRatio, setSelectedRatio] = useState("1:1");
-  const [numImages, setNumImages] = useState(1);
-  const [imgQuality, setImgQuaility] = useState(4);
-  const [imgFormat, setImgFormat] = useState("jpg");
+  const [imgQualityLocal, setImgQualityLocal] = useState(4);
+  const [imgFormatLocal, setImgFormatLocal] = useState("jpg");
+  const [selectedRatio, setSelectedRatioLocal] = useState("1:1");
+  const [numImages, setNumImagesLocal] = useState(initialNumImages); // Added state for numImages
 
   const toggleAdvancedMode = () => {
     setIsOpen(!isOpen);
   };
 
-  // Sub-buttons for each image size
+  const handleImageQualityChange = (value: number) => {
+    setImgQualityLocal(value);
+    setImgQuality(value);
+  };
+
+  const handleImageFormatChange = (format: string) => {
+    setImgFormatLocal(format);
+    setImgFormat(format);
+  };
+
   const renderSubButtons = () => {
     switch (selectedSize) {
       case "Portrait":
         return (
           <div className="flex gap-2">
             <button
-              onClick={() => setSelectedRatio("3:4")}
+              onClick={() => {
+                setSelectedRatio("3:4");
+                setSelectedRatioLocal("3:4");
+              }}
               className={`py-1 px-3 border rounded-md text-sm md:text-md ${
                 selectedRatio === "3:4"
                   ? "border-designColor"
@@ -30,7 +58,10 @@ const AdvancedMode = () => {
               3:4
             </button>
             <button
-              onClick={() => setSelectedRatio("9:6")}
+              onClick={() => {
+                setSelectedRatio("9:6");
+                setSelectedRatioLocal("9:6");
+              }}
               className={`py-1 px-3 border rounded-md text-sm md:text-md ${
                 selectedRatio === "9:6"
                   ? "border-designColor"
@@ -45,7 +76,10 @@ const AdvancedMode = () => {
         return (
           <div className="flex gap-2">
             <button
-              onClick={() => setSelectedRatio("4:3")}
+              onClick={() => {
+                setSelectedRatio("4:3");
+                setSelectedRatioLocal("4:3");
+              }}
               className={`py-1 px-3 border rounded-md text-sm md:text-md ${
                 selectedRatio === "4:3"
                   ? "border-designColor"
@@ -55,7 +89,10 @@ const AdvancedMode = () => {
               4:3
             </button>
             <button
-              onClick={() => setSelectedRatio("16:9")}
+              onClick={() => {
+                setSelectedRatio("16:9");
+                setSelectedRatioLocal("16:9");
+              }}
               className={`py-1 px-3 border rounded-md text-sm md:text-md ${
                 selectedRatio === "16:9"
                   ? "border-designColor"
@@ -69,7 +106,10 @@ const AdvancedMode = () => {
       default:
         return (
           <button
-            onClick={() => setSelectedRatio("1:1")}
+            onClick={() => {
+              setSelectedRatio("1:1");
+              setSelectedRatioLocal("1:1");
+            }}
             className={`py-1 px-3 border rounded-md text-sm md:text-md ${
               selectedRatio === "1:1" ? "border-designColor" : "border-gray-300"
             }`}
@@ -109,31 +149,29 @@ const AdvancedMode = () => {
             </label>
             <div className="flex gap-2 mt-2">
               <button
-                onClick={() => {
-                  setImgFormat("jpg");
-                }}
+                onClick={() => handleImageFormatChange("jpg")}
                 className={`py-1 px-3 border rounded-md text-sm md:text-md ${
-                  imgFormat === "jpg" ? "border-designColor" : "border-gray-300"
+                  imgFormatLocal === "jpg"
+                    ? "border-designColor"
+                    : "border-gray-300"
                 }`}
               >
                 JPEG
               </button>
               <button
-                onClick={() => {
-                  setImgFormat("png");
-                }}
+                onClick={() => handleImageFormatChange("png")}
                 className={`py-1 px-3 border rounded-md text-sm md:text-md ${
-                  imgFormat === "png" ? "border-designColor" : "border-gray-300"
+                  imgFormatLocal === "png"
+                    ? "border-designColor"
+                    : "border-gray-300"
                 }`}
               >
                 PNG
               </button>
               <button
-                onClick={() => {
-                  setImgFormat("webp");
-                }}
+                onClick={() => handleImageFormatChange("webp")}
                 className={`py-1 px-3 border rounded-md text-sm md:text-md ${
-                  imgFormat === "webp"
+                  imgFormatLocal === "webp"
                     ? "border-designColor"
                     : "border-gray-300"
                 }`}
@@ -153,6 +191,7 @@ const AdvancedMode = () => {
                 onClick={() => {
                   setSelectedSize("Square");
                   setSelectedRatio("1:1");
+                  setSelectedRatioLocal("1:1");
                 }}
                 className={`py-1 px-3 border rounded-md text-sm md:text-md ${
                   selectedSize === "Square"
@@ -166,6 +205,7 @@ const AdvancedMode = () => {
                 onClick={() => {
                   setSelectedSize("Portrait");
                   setSelectedRatio("3:4");
+                  setSelectedRatioLocal("3:4");
                 }}
                 className={`py-1 px-3 border rounded-md text-sm md:text-md ${
                   selectedSize === "Portrait"
@@ -179,6 +219,7 @@ const AdvancedMode = () => {
                 onClick={() => {
                   setSelectedSize("Landscape");
                   setSelectedRatio("4:3");
+                  setSelectedRatioLocal("4:3");
                 }}
                 className={`py-1 px-3 border rounded-md text-sm md:text-md ${
                   selectedSize === "Landscape"
@@ -194,66 +235,68 @@ const AdvancedMode = () => {
             <div className="mt-2">{renderSubButtons()}</div>
           </div>
 
-          {/* Number of Images */}
-          <div className="flex gap-2 p-4">
-            <div className="flex flex-col w-1/2 gap-2 ">
-              {" "}
-              <label className="text-xs font-medium text-white/90">
-                Number of Images
-              </label>
-              <input
-                type="range"
-                min="1"
-                max="5"
-                value={numImages}
-                onChange={(e) => setNumImages(Number(e.target.value))}
-                className="w-full h-1 bg-gray-700 rounded-lg appearance-none focus:outline-none 
-              accent-designColor mt-2" // Styling the track
-                style={{
-                  background: `linear-gradient(to right, #388E3C 0%, #388E3C ${
-                    ((numImages - 1) / 4) * 100
-                  }%, #4A4A4A ${((numImages - 1) / 4) * 100}%, #4A4A4A 100%)`,
-                }} // Progress indicator
-              />
+          <div className="flex flex-col gap-2 p-4">
+            {/* Number of Images */}
+            <div className="flex ">
+              <div className="flex flex-col w-1/2 gap-2">
+                {" "}
+                <label className="text-xs font-medium text-white/90">
+                  Number of Images
+                </label>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value={numImages}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    setNumImagesLocal(value); // Update local state
+                    setNumImages(value); // Pass to the parent
+                  }}
+                  className="w-full h-1 bg-gray-700 rounded-lg appearance-none 
+                  focus:outline-none accent-designColor mt-2"
+                  style={{
+                    background: `linear-gradient(to right, #388E3C 0%, #388E3C ${
+                      ((numImages - 1) / 4) * 100
+                    }%, #4A4A4A ${((numImages - 1) / 4) * 100}%, #4A4A4A 100%)`,
+                  }}
+                />
+              </div>
+
+              <span className="text-sm pt-5 pl-6 text-gray-200 text-start">
+                Quantity: {numImages}
+              </span>
             </div>
 
-            <span className="text-sm font-medium text-white/90 mt-4 ml-5">
-              {" "}
-              {numImages} image{numImages > 1 ? "s" : ""}
-            </span>
-
-            <p></p>
-          </div>
-
-          {/* Image Quality */}
-          <div className="flex gap-2 p-4">
-            <div className="flex flex-col w-1/2 gap-2 ">
-              {" "}
-              <label className="text-xs font-medium text-white/90">
-                Image Quality
-              </label>
-              <input
-                type="range"
-                min="1"
-                max="5"
-                value={imgQuality}
-                onChange={(e) => setImgQuaility(Number(e.target.value))}
-                className="w-full h-1 bg-gray-700 rounded-lg appearance-none focus:outline-none 
-              accent-designColor mt-2" // Styling the track
-                style={{
-                  background: `linear-gradient(to right, #388E3C 0%, #388E3C ${
-                    ((imgQuality - 1) / 4) * 100
-                  }%, #4A4A4A ${((imgQuality - 1) / 4) * 100}%, #4A4A4A 100%)`,
-                }} // Progress indicator
-              />
+            {/* Image Quality */}
+            <div className="flex">
+              <div className="flex flex-col w-1/2 gap-2 ">
+                <label className="text-xs font-medium text-white/90">
+                  Image Quality
+                </label>
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  value={imgQualityLocal}
+                  onChange={(e) =>
+                    handleImageQualityChange(Number(e.target.value))
+                  }
+                  className="w-full h-1 bg-gray-700 rounded-lg appearance-none 
+                  focus:outline-none accent-designColor mt-2"
+                  style={{
+                    background: `linear-gradient(to right, #388E3C 0%, #388E3C ${
+                      ((imgQualityLocal - 1) / 9) * 100
+                    }%, #4A4A4A ${
+                      ((imgQualityLocal - 1) / 9) * 100
+                    }%, #4A4A4A 100%)`,
+                  }}
+                />
+              </div>
+              <span className="text-sm pt-5 pl-6 text-gray-200 text-start">
+                Quality: {imgQualityLocal * 10} %
+              </span>
             </div>
-
-            <span className="text-sm font-medium text-white/90 mt-5 ml-5">
-              {" "}
-              {imgQuality * 20}%
-            </span>
-
-            <p></p>
           </div>
         </div>
       )}

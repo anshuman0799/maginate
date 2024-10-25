@@ -3,12 +3,33 @@ import React, { useState } from "react";
 import AdvancedMode from "./AdvanceMode";
 import { RiPencilFill } from "react-icons/ri";
 import { FaMagic } from "react-icons/fa";
+import { generateImage } from "../service/imageService";
 
-const GenerateForm = () => {
-  const [prompt, setPrompt] = useState("");
-  //   const [author, setAuthor] = useState("");
+const GenerateForm: React.FC = () => {
+  const [prompt, setPrompt] = useState<string>("");
+  const [selectedRatio, setSelectedRatio] = useState<string>("1:1");
+  const [numImages, setNumImages] = useState<number>(1);
+  const [imgQuality, setImgQuality] = useState<number>(1);
+  const [imgFormat, setImgFormat] = useState<string>("png");
 
-  const handleGenerate = () => {};
+  const handleGenerate = async () => {
+    const data = {
+      prompt,
+      selectedRatio,
+      numImages,
+      imgQuality,
+      imgFormat,
+    };
+
+    try {
+      const result = await generateImage(data);
+      console.log("Image generation result:", result);
+      // Handle the result, e.g., display the image
+    } catch (error) {
+      console.error(error);
+      // Optionally, show an error message to the user
+    }
+  };
 
   const handlePost = () => {};
 
@@ -38,7 +59,6 @@ const GenerateForm = () => {
       <div className="flex flex-col gap-5">
         {/* Prompt Text-area */}
         <div className="flex flex-col gap-2">
-          {" "}
           <label
             htmlFor="imagePrompt"
             className="text-xs font-medium text-white/90"
@@ -61,7 +81,6 @@ const GenerateForm = () => {
 
         {/* Author text-area */}
         {/* <div className="flex flex-col gap-2">
-          {" "}
           <label htmlFor="author" className="text-xs font-medium text-white/90">
             Author{" "}
           </label>
@@ -81,17 +100,28 @@ const GenerateForm = () => {
       </div>
 
       {/* Advanced Mode Settings */}
-      <AdvancedMode></AdvancedMode>
+      <AdvancedMode
+        setSelectedRatio={setSelectedRatio}
+        setNumImages={setNumImages}
+        setImgQuality={setImgQuality}
+        setImgFormat={setImgFormat}
+      />
 
       {/* Submit buttons */}
       <div className="flex gap-4 mt-4">
-        <button className="btnGenerate" onClick={handleGenerate}>
+        <button
+          className={`btnGenerate ${
+            !prompt.trim() ? "opacity-70 cursor-not-allowed" : ""
+          }`}
+          onClick={handleGenerate}
+          disabled={!prompt.trim()} // Disable button if prompt is empty
+        >
           <FaMagic />
-          <span>Create Image </span>
+          <span>Create Image</span>
         </button>
         <button className="btnPost" onClick={handlePost}>
           <RiPencilFill />
-          <span>Post Image </span>
+          <span>Post Image</span>
         </button>
       </div>
     </div>
