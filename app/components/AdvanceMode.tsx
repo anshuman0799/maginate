@@ -23,7 +23,7 @@ const AdvancedMode: React.FC<AdvancedModeProps> = ({
   initialNumImages = 1,
 }) => {
   const [selectedSize, setSelectedSize] = useState("Square");
-  const [imgQualityLocal, setImgQualityLocal] = useState(4);
+  const [imgQualityLocal, setImgQualityLocal] = useState(10);
   const [imgFormatLocal, setImgFormatLocal] = useState("jpg");
   const [selectedRatio, setSelectedRatioLocal] = useState("1:1");
   const [numImages, setNumImagesLocal] = useState(initialNumImages);
@@ -58,16 +58,16 @@ const AdvancedMode: React.FC<AdvancedModeProps> = ({
             </button>
             <button
               onClick={() => {
-                setSelectedRatio("9:6");
-                setSelectedRatioLocal("9:6");
+                setSelectedRatio("9:16");
+                setSelectedRatioLocal("9:16");
               }}
               className={`py-1 px-3 border rounded-md text-sm md:text-md ${
-                selectedRatio === "9:6"
+                selectedRatio === "9:16"
                   ? "border-designColor"
                   : "border-gray-300"
               }`}
             >
-              9:6
+              9:16
             </button>
           </div>
         );
