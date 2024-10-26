@@ -9,8 +9,8 @@ const GenerateForm: React.FC = () => {
   const [prompt, setPrompt] = useState<string>("");
   const [selectedRatio, setSelectedRatio] = useState<string>("1:1");
   const [numImages, setNumImages] = useState<number>(1);
-  const [imgQuality, setImgQuality] = useState<number>(1);
-  const [imgFormat, setImgFormat] = useState<string>("png");
+  const [imgQuality, setImgQuality] = useState<number>(10);
+  const [imgFormat, setImgFormat] = useState<string>("jpg");
 
   const handleGenerate = async () => {
     const data = {
@@ -47,7 +47,7 @@ const GenerateForm: React.FC = () => {
           With
           <span className="text-designColor font-bold capitalize">
             {" "}
-            Artificial Intelligence .
+            Artificial Intelligence.
           </span>
         </h1>
         <p className="text-sm md:text-lg text-left font-bodyFont text-white/90 leading-6 tracking-wide py-5">

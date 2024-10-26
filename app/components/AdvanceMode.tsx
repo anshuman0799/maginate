@@ -140,7 +140,7 @@ const AdvancedMode: React.FC<AdvancedModeProps> = ({
 
       {isOpen && (
         <div
-          className={`flex flex-col gap-5 mt-3 transition-all duration-500 ease-in-out overflow-hidden`}
+          className={`flex flex-col mt-3 transition-all duration-500 ease-in-out overflow-hidden`}
         >
           {/* Image Format Selection */}
           <div className="flex flex-col gap-2 p-4 pt-0">
@@ -235,7 +235,7 @@ const AdvancedMode: React.FC<AdvancedModeProps> = ({
             <div className="mt-2">{renderSubButtons()}</div>
           </div>
 
-          <div className="flex flex-col gap-2 p-4">
+          <div className="flex flex-col gap-6 p-4">
             {/* Number of Images */}
             <div className="flex ">
               <div className="flex flex-col w-1/2 gap-2">
