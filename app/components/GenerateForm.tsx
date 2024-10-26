@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import AdvancedMode from "./AdvanceMode";
+import Popover from "./Popover";
 import { RiPencilFill } from "react-icons/ri";
 import { FaMagic } from "react-icons/fa";
 import { generateImage } from "../service/imageService";
+import axios from "axios"; // Ensure axios is imported
 
 const GenerateForm: React.FC = () => {
   const [prompt, setPrompt] = useState<string>("");
@@ -12,6 +14,8 @@ const GenerateForm: React.FC = () => {
   const [imgQuality, setImgQuality] = useState<number>(10);
   const [imgFormat, setImgFormat] = useState<string>("jpg");
   const [isAdvancedModeOpen, setIsAdvancedModeOpen] = useState(false);
+  const [popoverMessage, setPopoverMessage] = useState<string | null>(null);
+  const [isPopoverVisible, setIsPopoverVisible] = useState(false);
 
   const handleGenerate = async () => {
     if (isAdvancedModeOpen) {
@@ -39,8 +43,20 @@ const GenerateForm: React.FC = () => {
       console.log("Image generation result:", result);
       // Handle the result, e.g., display the image
     } catch (error) {
-      console.error(error);
-      // Optionally, show an error message to the user
+      console.error("Error object:", error);
+
+      // Type assertion to specify the structure of the error
+      const apiError = error as { status?: number; message?: string };
+
+      // Show appropriate message based on status code
+      if (apiError.status === 400) {
+        setPopoverMessage(
+          "NSFW words detected in your prompt, please modify it."
+        );
+      } else {
+        setPopoverMessage("Something went wrong, please try again later.");
+      }
+      setIsPopoverVisible(true); // Show the popover
     }
   };
 
@@ -48,6 +64,11 @@ const GenerateForm: React.FC = () => {
 
   const toggleAdvancedMode = () => {
     setIsAdvancedModeOpen((prev) => !prev);
+  };
+
+  const closePopover = () => {
+    setIsPopoverVisible(false);
+    setPopoverMessage(null);
   };
 
   return (
@@ -145,6 +166,10 @@ const GenerateForm: React.FC = () => {
           <span>Post Image</span>
         </button>
       </div>
+      {/* Show Popover */}
+      {isPopoverVisible && (
+        <Popover message={popoverMessage!} onClose={closePopover} />
+      )}
     </div>
   );
 };

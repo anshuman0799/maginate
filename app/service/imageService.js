@@ -17,6 +17,14 @@ export const generateImage = async (data) => {
     });
     return response.data; // Return the response data to the calling function
   } catch (error) {
-    throw new Error("Error generating image: " + error.message);
+    // Check if the error is an Axios error and has a response
+    if (axios.isAxiosError(error) && error.response) {
+      throw {
+        status: error.response.status,
+        message: error.response.data?.message || "Error generating image",
+      };
+    } else {
+      throw new Error("Network Error: " + error.message);
+    }
   }
 };
