@@ -11,6 +11,7 @@ const GenerateForm: React.FC = () => {
   const [numImages, setNumImages] = useState<number>(1);
   const [imgQuality, setImgQuality] = useState<number>(10);
   const [imgFormat, setImgFormat] = useState<string>("jpg");
+  const [isAdvancedModeOpen, setIsAdvancedModeOpen] = useState(false);
 
   const handleGenerate = async () => {
     const data = {
@@ -32,6 +33,10 @@ const GenerateForm: React.FC = () => {
   };
 
   const handlePost = () => {};
+
+  const toggleAdvancedMode = () => {
+    setIsAdvancedModeOpen((prev) => !prev);
+  };
 
   return (
     <div className="w-full lg:w-2/5 flex flex-col gap-5 md:gap-10">
@@ -105,6 +110,8 @@ const GenerateForm: React.FC = () => {
         setNumImages={setNumImages}
         setImgQuality={setImgQuality}
         setImgFormat={setImgFormat}
+        isOpen={isAdvancedModeOpen}
+        toggleAdvancedMode={toggleAdvancedMode}
       />
 
       {/* Submit buttons */}
@@ -113,7 +120,10 @@ const GenerateForm: React.FC = () => {
           className={`btnGenerate ${
             !prompt.trim() ? "opacity-70 cursor-not-allowed" : ""
           }`}
-          onClick={handleGenerate}
+          onClick={() => {
+            handleGenerate();
+            toggleAdvancedMode();
+          }}
           disabled={!prompt.trim()} // Disable button if prompt is empty
         >
           <FaMagic />

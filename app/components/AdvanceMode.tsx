@@ -8,7 +8,9 @@ interface AdvancedModeProps {
   setNumImages: (num: number) => void;
   setImgQuality: (quality: number) => void;
   setImgFormat: (format: string) => void;
-  initialNumImages?: number; // Optional prop for initial value
+  toggleAdvancedMode: () => void;
+  isOpen: boolean;
+  initialNumImages?: number;
 }
 
 const AdvancedMode: React.FC<AdvancedModeProps> = ({
@@ -16,18 +18,15 @@ const AdvancedMode: React.FC<AdvancedModeProps> = ({
   setNumImages,
   setImgQuality,
   setImgFormat,
-  initialNumImages = 1, // Set default value if not provided
+  toggleAdvancedMode,
+  isOpen,
+  initialNumImages = 1,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState("Square");
   const [imgQualityLocal, setImgQualityLocal] = useState(4);
   const [imgFormatLocal, setImgFormatLocal] = useState("jpg");
   const [selectedRatio, setSelectedRatioLocal] = useState("1:1");
-  const [numImages, setNumImagesLocal] = useState(initialNumImages); // Added state for numImages
-
-  const toggleAdvancedMode = () => {
-    setIsOpen(!isOpen);
-  };
+  const [numImages, setNumImagesLocal] = useState(initialNumImages);
 
   const handleImageQualityChange = (value: number) => {
     setImgQualityLocal(value);
