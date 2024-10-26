@@ -120,7 +120,7 @@ const AdvancedMode: React.FC<AdvancedModeProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col gap-5 bg-bodyColor p-1 border-[0.5px] border-gray-300 rounded-md">
+    <div className="w-full flex flex-col gap-5 bg-bodyColor p-1 border-[0.5px] border-gray-300 rounded-md cursor-pointer">
       <div
         onClick={toggleAdvancedMode}
         className="flex justify-between text-white font-medium text-sm md:text-md bg-bodyColor p-2 text-start space-x-2 "
