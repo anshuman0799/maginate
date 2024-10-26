@@ -14,6 +14,18 @@ const GenerateForm: React.FC = () => {
   const [isAdvancedModeOpen, setIsAdvancedModeOpen] = useState(false);
 
   const handleGenerate = async () => {
+    if (isAdvancedModeOpen) {
+      toggleAdvancedMode();
+    }
+
+    // Scroll logic based on screen size
+    const isLargeScreen = window.matchMedia("(min-width: 1024px)").matches; // Adjust the breakpoint if necessary
+    if (isLargeScreen) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 310, behavior: "smooth" });
+    }
+
     const data = {
       prompt,
       selectedRatio,
@@ -122,7 +134,6 @@ const GenerateForm: React.FC = () => {
           }`}
           onClick={() => {
             handleGenerate();
-            toggleAdvancedMode();
           }}
           disabled={!prompt.trim()} // Disable button if prompt is empty
         >
