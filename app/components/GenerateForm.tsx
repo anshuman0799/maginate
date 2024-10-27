@@ -19,7 +19,7 @@ interface GenerateFormProps {
   toggleAdvancedMode: () => void;
   isLoading: { generate: boolean; post: boolean };
   handleGenerate: () => void;
-  handlePost: () => void;
+  handleOpenPostPopover: () => void;
   isPopoverVisible: boolean;
   popoverMessage: string | null;
   closePopover: () => void;
@@ -41,7 +41,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
   toggleAdvancedMode,
   isLoading,
   handleGenerate,
-  handlePost,
+  handleOpenPostPopover,
   isPopoverVisible,
   popoverMessage,
   closePopover,
@@ -117,12 +117,12 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
         </button>
         <button
           className={`btnPost ${
-            isLoading.post || !isImageGenerated // Disable if not generated successfully
+            isLoading.post || !isImageGenerated
               ? "opacity-70 cursor-not-allowed"
               : ""
           }`}
-          onClick={handlePost}
-          disabled={isLoading.post || !isImageGenerated} // Disable if not generated successfully
+          onClick={handleOpenPostPopover}
+          disabled={isLoading.post || !isImageGenerated}
         >
           <RiPencilFill />
           <span>{isLoading.post ? "Posting..." : "Post Image"}</span>

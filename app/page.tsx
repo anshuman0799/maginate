@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import GenerateForm from "./components/GenerateForm";
 import ImageArea from "./components/ImageArea";
 import { generateImage, postImage } from "./service/imageService";
+import SelectImagesPopover from "./components/SelecteImagesPopover";
 
 interface GeneratedImageData {
   id: string;
@@ -22,11 +23,17 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState({ generate: false, post: false });
   const [generatedImageData, setGeneratedImageData] =
     useState<GeneratedImageData | null>(null);
-  const [isImageGenerated, setIsImageGenerated] = useState(false); // New state for tracking image generation success
+  const [isImageGenerated, setIsImageGenerated] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [creatorName, setCreatorName] = useState("");
+
+  const handleOpenPostPopover = () => {
+    setIsPopoverOpen(true);
+  };
 
   const handleGenerate = async () => {
     setIsLoading((prev) => ({ ...prev, generate: true }));
-    setIsImageGenerated(false); // Reset the success state when generating a new image
+    setIsImageGenerated(false);
 
     if (isAdvancedModeOpen) setIsAdvancedModeOpen(false);
 
@@ -49,25 +56,27 @@ export default function Home() {
     }
   };
 
-  const handlePost = async () => {
+  const handlePost = async (selectedImages: string[]) => {
     setIsLoading((prev) => ({ ...prev, post: true }));
     try {
       const postData = {
         id: generatedImageData?.id || "default-id",
-        creator: generatedImageData?.creator || "default-creator",
+        creator:
+          creatorName || generatedImageData?.creator || "default-creator",
         input: {
-          prompt: prompt,
+          prompt,
           go_fast: true,
-          num_outputs: numImages,
+          num_outputs: selectedImages.length,
           aspect_ratio: selectedRatio,
           output_format: imgFormat,
           output_quality: imgQuality * 10,
         },
-        output: generatedImageData?.output || [],
+        output: selectedImages,
       };
 
       const response = await postImage(postData);
       console.log("Post Image response:", response);
+      setIsPopoverOpen(false);
     } catch (error) {
       handleError(error);
     } finally {
@@ -116,16 +125,26 @@ export default function Home() {
         toggleAdvancedMode={toggleAdvancedMode}
         isLoading={isLoading}
         handleGenerate={handleGenerate}
-        handlePost={handlePost}
+        handleOpenPostPopover={handleOpenPostPopover}
         isPopoverVisible={isPopoverVisible}
         popoverMessage={popoverMessage}
         closePopover={closePopover}
-        isImageGenerated={isImageGenerated} // Pass the new state to GenerateForm
+        isImageGenerated={isImageGenerated}
       />
       <ImageArea
         imageData={generatedImageData}
         isLoading={isLoading.generate}
       />
+
+      {isPopoverOpen && generatedImageData && (
+        <SelectImagesPopover
+          images={generatedImageData.output}
+          creator={creatorName}
+          setCreator={setCreatorName}
+          onClose={() => setIsPopoverOpen(false)}
+          onPost={handlePost}
+        />
+      )}
     </section>
   );
 }

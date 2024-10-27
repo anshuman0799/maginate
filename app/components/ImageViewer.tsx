@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa6";
 import { MdFileDownload } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
@@ -16,6 +16,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
   onClose,
   onNavigate,
 }) => {
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
   const downloadImage = async () => {
     const imageUrl = images[currentIndex];
 
@@ -58,15 +60,50 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
     }
   };
 
+  // Swipe handling
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const swipeDistance = touchStartX - touchEndX;
+
+    // Determine swipe threshold
+    const swipeThreshold = 50;
+
+    if (swipeDistance > swipeThreshold) {
+      handleNext();
+    } else if (swipeDistance < -swipeThreshold) {
+      handlePrev();
+    }
+
+    setTouchStartX(null);
+  };
+
   useEffect(() => {
+    // Add event listeners for key navigation
     window.addEventListener("keydown", handleKeyDown);
+
+    // Disable background scrolling
+    document.body.classList.add("overflow-hidden");
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+
+      // Enable background scrolling when the component unmounts
+      document.body.classList.remove("overflow-hidden");
     };
   }, [currentIndex]);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <button
         style={{ zIndex: 100 }}
         className="absolute top-[18%] right-[10%] md:top-[10%] md:right-[21%] text-white text-4xl hover:text-5xl hover:text-designColor transition-all duration-300"

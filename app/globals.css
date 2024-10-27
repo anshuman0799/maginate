@@ -39,4 +39,8 @@
   .loader span {
     @apply w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin;
   }
+
+  .overflow-hidden {
+    overflow: hidden;
+  }
 }
