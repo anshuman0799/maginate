@@ -245,7 +245,7 @@ const AdvancedMode: React.FC<AdvancedModeProps> = ({
                 <input
                   type="range"
                   min="1"
-                  max="5"
+                  max="4"
                   value={numImages}
                   onChange={(e) => {
                     const value = Number(e.target.value);
@@ -256,8 +256,8 @@ const AdvancedMode: React.FC<AdvancedModeProps> = ({
                   focus:outline-none accent-designColor mt-2"
                   style={{
                     background: `linear-gradient(to right, #388E3C 0%, #388E3C ${
-                      ((numImages - 1) / 4) * 100
-                    }%, #4A4A4A ${((numImages - 1) / 4) * 100}%, #4A4A4A 100%)`,
+                      ((numImages - 1) / 3) * 100
+                    }%, #4A4A4A ${((numImages - 1) / 3) * 100}%, #4A4A4A 100%)`,
                   }}
                 />
               </div>
