@@ -63,12 +63,12 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [currentIndex]); // Reattach listener if currentIndex changes
+  }, [currentIndex]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
       <button
-        style={{ zIndex: 100 }} // Inline z-index for testing
+        style={{ zIndex: 100 }}
         className="absolute top-[18%] right-[10%] md:top-[10%] md:right-[21%] text-white text-4xl hover:text-5xl hover:text-designColor transition-all duration-300"
         onClick={onClose}
       >

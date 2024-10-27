@@ -6,9 +6,10 @@ interface ImageAreaProps {
   imageData: {
     output: string[];
   } | null;
+  isLoading: boolean;
 }
 
-const ImageArea: React.FC<ImageAreaProps> = ({ imageData }) => {
+const ImageArea: React.FC<ImageAreaProps> = ({ imageData, isLoading }) => {
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
 
   const openImageViewer = (index: number) => setViewerIndex(index);
@@ -16,17 +17,21 @@ const ImageArea: React.FC<ImageAreaProps> = ({ imageData }) => {
 
   return (
     <div className="w-full lg:w-3/5 flex flex-col gap-5 md:gap-10 items-center">
-      {imageData ? (
-        <div className="w-[350px] h-[350px] md:w-[650px] md:h-[650px] border-[1px] border-dashed border-yellow-500 rounded-3xl flex items-center justify-center">
+      <div className="w-[350px] h-[350px] md:w-[650px] md:h-[650px] border-[1px] border-dashed border-yellow-500 rounded-3xl flex items-center justify-center">
+        {isLoading ? (
+          <div className="loader">
+            {" "}
+            {/* Add loader CSS here */}
+            <span className="animate-spin w-10 h-10 border-4 border-t-transparent border-white rounded-full"></span>
+          </div>
+        ) : imageData ? (
           <Collage images={imageData.output} onImageClick={openImageViewer} />
-        </div>
-      ) : (
-        <div className="w-[350px] h-[350px] md:w-[650px] md:h-[650px] border-[1px] border-dashed border-yellow-500 rounded-3xl flex items-center justify-center">
+        ) : (
           <p className="text-white/60 font-titleFont text-center">
             Write your prompt to generate your image...
           </p>
-        </div>
-      )}
+        )}
+      </div>
       {viewerIndex !== null && (
         <ImageViewer
           images={imageData?.output || []}

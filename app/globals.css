@@ -31,4 +31,12 @@
   .contactIcon {
     @apply w-20 h-10 bg-gray-800 text-white text-2xl flex-col hover:-translate-y-1 transition-all hover:text-designColor cursor-pointer duration-300;
   }
+
+  .loader {
+    @apply flex items-center justify-center;
+  }
+
+  .loader span {
+    @apply w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin;
+  }
 }

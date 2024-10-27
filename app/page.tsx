@@ -100,8 +100,10 @@ export default function Home() {
         popoverMessage={popoverMessage}
         closePopover={closePopover}
       />
-      <ImageArea imageData={generatedImageData} />{" "}
-      {/* Pass generated images to ImageArea */}
+      <ImageArea
+        imageData={generatedImageData}
+        isLoading={isLoading.generate}
+      />{" "}
     </section>
   );
 }
