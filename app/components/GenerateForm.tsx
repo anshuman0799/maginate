@@ -81,7 +81,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
             maxLength={300}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Describe the image you want to create..."
+            placeholder="A tiny pokemon hatching from an egg"
             className="p-3 text-sm font-bodyFont text-white bg-bodyColor rounded-md resize-none border-[0.5px] border-gray-300 focus:border-designColor focus:outline-none"
           />
           <p className="text-xs text-gray-400">

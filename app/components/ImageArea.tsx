@@ -28,7 +28,7 @@ const ImageArea: React.FC<ImageAreaProps> = ({ imageData, isLoading }) => {
           <Collage images={imageData.output} onImageClick={openImageViewer} />
         ) : (
           <p className="text-white/60 font-titleFont text-center">
-            Write your prompt to generate your image...
+            Describe the image you want to create...
           </p>
         )}
       </div>
