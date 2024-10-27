@@ -23,6 +23,7 @@ interface GenerateFormProps {
   isPopoverVisible: boolean;
   popoverMessage: string | null;
   closePopover: () => void;
+  isImageGenerated: boolean;
 }
 
 const GenerateForm: React.FC<GenerateFormProps> = ({
@@ -44,6 +45,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
   isPopoverVisible,
   popoverMessage,
   closePopover,
+  isImageGenerated,
 }) => {
   return (
     <div className="w-full lg:w-2/5 flex flex-col gap-5 md:gap-10">
@@ -115,17 +117,18 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
         </button>
         <button
           className={`btnPost ${
-            isLoading.post ? "opacity-70 cursor-not-allowed" : ""
+            isLoading.post || !isImageGenerated // Disable if not generated successfully
+              ? "opacity-70 cursor-not-allowed"
+              : ""
           }`}
           onClick={handlePost}
-          disabled={isLoading.post}
+          disabled={isLoading.post || !isImageGenerated} // Disable if not generated successfully
         >
           <RiPencilFill />
           <span>{isLoading.post ? "Posting..." : "Post Image"}</span>
         </button>
       </div>
       {/* Show Popover */}
-
       {isPopoverVisible && (
         <Popover message={popoverMessage!} onClose={closePopover} />
       )}

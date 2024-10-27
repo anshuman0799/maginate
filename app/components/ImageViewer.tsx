@@ -23,13 +23,13 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
       const response = await fetch(imageUrl);
       if (!response.ok) throw new Error("Network response was not ok");
 
-      const blob = await response.blob(); // Get the image as a Blob
+      const blob = await response.blob();
       const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob); // Create a URL for the Blob
-      link.download = `image-${currentIndex + 1}.png`; // Name of the downloaded file
-      document.body.appendChild(link); // Append the link to the body
-      link.click(); // Programmatically click the link to trigger the download
-      document.body.removeChild(link); // Remove the link from the document
+      link.href = URL.createObjectURL(blob);
+      link.download = `maginate-${currentIndex + 1}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       // Release the object URL after download
       URL.revokeObjectURL(link.href);
@@ -50,11 +50,11 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
-      onClose(); // Close on Escape
+      onClose();
     } else if (event.key === "ArrowRight") {
-      handleNext(); // Navigate right on ArrowRight
+      handleNext();
     } else if (event.key === "ArrowLeft") {
-      handlePrev(); // Navigate left on ArrowLeft
+      handlePrev();
     }
   };
 

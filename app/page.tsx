@@ -2,7 +2,13 @@
 import React, { useState } from "react";
 import GenerateForm from "./components/GenerateForm";
 import ImageArea from "./components/ImageArea";
-import { generateImage } from "./service/imageService";
+import { generateImage, postImage } from "./service/imageService";
+
+interface GeneratedImageData {
+  id: string;
+  creator: string;
+  output: any[];
+}
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
@@ -14,10 +20,14 @@ export default function Home() {
   const [popoverMessage, setPopoverMessage] = useState<string | null>(null);
   const [isPopoverVisible, setIsPopoverVisible] = useState(false);
   const [isLoading, setIsLoading] = useState({ generate: false, post: false });
-  const [generatedImageData, setGeneratedImageData] = useState(null);
+  const [generatedImageData, setGeneratedImageData] =
+    useState<GeneratedImageData | null>(null);
+  const [isImageGenerated, setIsImageGenerated] = useState(false); // New state for tracking image generation success
 
   const handleGenerate = async () => {
     setIsLoading((prev) => ({ ...prev, generate: true }));
+    setIsImageGenerated(false); // Reset the success state when generating a new image
+
     if (isAdvancedModeOpen) setIsAdvancedModeOpen(false);
 
     setTimeout(() => {
@@ -25,12 +35,13 @@ export default function Home() {
         ? 0
         : 310;
       window.scrollTo({ top: scrollPosition, behavior: "smooth" });
-    }, 100); // Adjust delay as needed
+    }, 100);
 
     try {
       const data = { prompt, selectedRatio, numImages, imgQuality, imgFormat };
       const result = await generateImage(data);
       setGeneratedImageData(result);
+      setIsImageGenerated(true); // Set success state to true after successful image generation
     } catch (error) {
       handleError(error);
     } finally {
@@ -41,7 +52,21 @@ export default function Home() {
   const handlePost = async () => {
     setIsLoading((prev) => ({ ...prev, post: true }));
     try {
-      const response = "Some API call will be done later";
+      const postData = {
+        id: generatedImageData?.id || "default-id",
+        creator: generatedImageData?.creator || "default-creator",
+        input: {
+          prompt: prompt,
+          go_fast: true,
+          num_outputs: numImages,
+          aspect_ratio: selectedRatio,
+          output_format: imgFormat,
+          output_quality: imgQuality * 10,
+        },
+        output: generatedImageData?.output || [],
+      };
+
+      const response = await postImage(postData);
       console.log("Post Image response:", response);
     } catch (error) {
       handleError(error);
@@ -52,11 +77,8 @@ export default function Home() {
 
   const handleError = (error: unknown) => {
     console.error("Error object:", error);
-
-    // Check if error is an object with an optional status and message property
     if (typeof error === "object" && error !== null && "status" in error) {
       const apiError = error as { status?: number; message?: string };
-
       setPopoverMessage(
         apiError.status === 400
           ? "NSFW words detected in your prompt, please modify it."
@@ -65,7 +87,6 @@ export default function Home() {
     } else {
       setPopoverMessage("Something went wrong, please try again later.");
     }
-
     setIsPopoverVisible(true);
   };
 
@@ -99,11 +120,12 @@ export default function Home() {
         isPopoverVisible={isPopoverVisible}
         popoverMessage={popoverMessage}
         closePopover={closePopover}
+        isImageGenerated={isImageGenerated} // Pass the new state to GenerateForm
       />
       <ImageArea
         imageData={generatedImageData}
         isLoading={isLoading.generate}
-      />{" "}
+      />
     </section>
   );
 }
