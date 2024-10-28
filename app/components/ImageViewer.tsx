@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa6";
 import { MdFileDownload } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import useBodyScrollLock from "../hooks/useBodyScrollLock";
 
 interface ImageViewerProps {
   images: string[];
@@ -16,6 +17,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
   onClose,
   onNavigate,
 }) => {
+  useBodyScrollLock(); // Disable background scrolling
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   const downloadImage = async () => {
@@ -87,14 +89,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
     // Add event listeners for key navigation
     window.addEventListener("keydown", handleKeyDown);
 
-    // Disable background scrolling
-    document.body.classList.add("overflow-hidden");
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-
-      // Enable background scrolling when the component unmounts
-      document.body.classList.remove("overflow-hidden");
     };
   }, [currentIndex]);
 

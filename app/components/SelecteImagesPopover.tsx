@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { FaCheck } from "react-icons/fa";
+import useBodyScrollLock from "../hooks/useBodyScrollLock";
 
 interface SelectImagesPopoverProps {
   images: string[];
@@ -15,7 +17,16 @@ const SelectImagesPopover: React.FC<SelectImagesPopoverProps> = ({
   onClose,
   onPost,
 }) => {
+  useBodyScrollLock();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+
+  // Prevent background scrolling when popover is open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   const handleImageSelect = (image: string) => {
     setSelectedImages((prevSelected) =>
@@ -34,7 +45,6 @@ const SelectImagesPopover: React.FC<SelectImagesPopoverProps> = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="popover-container bg-bodyColor rounded-lg p-6 shadow-lg w-[90%] md:w-[600px] lg:w-[700px]">
-        {" "}
         {/* Responsive width */}
         <h2 className="text-2xl font-titleFont mb-4 text-center">
           {images.length === 1 ? "Create a Post" : "Select Your Images"}
@@ -49,25 +59,18 @@ const SelectImagesPopover: React.FC<SelectImagesPopoverProps> = ({
           {images.map((image, index) => (
             <div
               key={index}
-              className="relative w-full h-[200px] md:h-[250px] lg:h-[300px] overflow-hidden" // Responsive height
+              className="relative w-full h-[200px] md:h-[250px] lg:h-[300px] overflow-hidden cursor-pointer"
+              onClick={() => images.length > 1 && handleImageSelect(image)}
             >
               <img
                 src={image}
                 alt={`Generated image ${index + 1}`}
-                className={`w-full h-full object-cover rounded-md cursor-pointer ${
-                  images.length > 1 && selectedImages.includes(image)
-                    ? "border-4 border-blue-500"
-                    : ""
+                className={`w-full h-full object-cover rounded-md transition-opacity duration-200 ${
+                  selectedImages.includes(image) ? "opacity-50" : "opacity-100"
                 }`}
-                onClick={() => images.length > 1 && handleImageSelect(image)}
               />
-              {images.length > 1 && (
-                <input
-                  type="checkbox"
-                  className="absolute top-2 left-2"
-                  checked={selectedImages.includes(image)}
-                  onChange={() => handleImageSelect(image)}
-                />
+              {selectedImages.includes(image) && (
+                <FaCheck className="absolute inset-0 m-auto text-designColor text-4xl" />
               )}
             </div>
           ))}

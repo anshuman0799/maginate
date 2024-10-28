@@ -1,4 +1,5 @@
 import React from "react";
+import useBodyScrollLock from "../hooks/useBodyScrollLock";
 
 interface PopoverProps {
   message: string;
@@ -6,6 +7,7 @@ interface PopoverProps {
 }
 
 const Popover: React.FC<PopoverProps> = ({ message, onClose }) => {
+  useBodyScrollLock();
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black opacity-50" onClick={onClose} />
