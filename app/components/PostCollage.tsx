@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FaUser } from "react-icons/fa";
+import { LuText } from "react-icons/lu";
 import ImageViewer from "./ImageViewer";
 
 interface ImageData {
@@ -29,25 +31,31 @@ const PostCollage: React.FC<PostCollageProps> = ({ images }) => {
       {images.map((image, index) => (
         <div
           key={image._id}
-          className="relative overflow-hidden cursor-pointer"
+          className="relative overflow-hidden cursor-pointer group"
           onClick={() => openImageViewer(index)} // Use the index of the image
         >
           <img
             src={image.postUrl}
             alt={image.prompt}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:opacity-40"
           />
-          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
-            <div className="text-center">
-              <h2 className="font-bold">{image.creator}</h2>
-              <p>{image.prompt}</p>
+          <div className="absolute bottom-0 left-0 right-0 p-2 bg-black bg-opacity-0 flex flex-col text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="flex items-center text-left">
+              <FaUser className="mr-1 text-xs lg:text-sm" />
+              <h2 className="text-xs lg:text-sm font-bold">{image.creator}</h2>
+            </div>
+            <div className="flex items-center text-left">
+              <LuText className="mr-1 text-xs lg:text-sm" />
+              <p className="text-xs lg:text-sm font-bold truncate">
+                {image.prompt}
+              </p>
             </div>
           </div>
         </div>
       ))}
       {viewerIndex !== null && (
         <ImageViewer
-          images={images.map((img) => img.postUrl)} // Assuming postUrl contains the image URLs
+          images={images.map((img) => img.postUrl)}
           currentIndex={viewerIndex}
           onClose={closeImageViewer}
           onNavigate={setViewerIndex}

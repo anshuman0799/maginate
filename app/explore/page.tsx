@@ -15,11 +15,11 @@ const CommunityPage: React.FC = () => {
   const loadImages = async (page: number) => {
     setLoading(true);
     try {
-      const data = await fetchImages(page, PAGE_SIZE); // This should return the array directly
+      const data = await fetchImages(page, PAGE_SIZE); 
       if (data.length < PAGE_SIZE) {
         setHasMore(false);
       }
-      setImages((prevImages) => [...prevImages, ...data]); // Set images directly
+      setImages((prevImages) => [...prevImages, ...data]); 
     } catch (error) {
       console.error("Error fetching images:", error);
     }
