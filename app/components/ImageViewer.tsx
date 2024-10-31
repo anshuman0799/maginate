@@ -55,9 +55,9 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       onClose();
-    } else if (event.key === "ArrowRight") {
+    } else if (event.key === "ArrowRight" && images.length > 1) {
       handleNext();
-    } else if (event.key === "ArrowLeft") {
+    } else if (event.key === "ArrowLeft" && images.length > 1) {
       handlePrev();
     }
   };
@@ -108,23 +108,27 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
         <IoClose />
       </button>
       <div className="relative w-[80%] md:w-[60%] h-[80%] flex items-center justify-center">
-        <button
-          className="absolute left-5 text-white text-3xl hover:text-5xl hover:text-designColor transition-all duration-300"
-          onClick={handlePrev}
-        >
-          <FaArrowLeft />
-        </button>
+        {images.length > 1 && (
+          <button
+            className="absolute left-5 text-white text-3xl hover:text-5xl hover:text-designColor transition-all duration-300"
+            onClick={handlePrev}
+          >
+            <FaArrowLeft />
+          </button>
+        )}
         <img
           src={images[currentIndex]}
           alt={`Image ${currentIndex + 1}`}
           className="max-w-full max-h-full rounded-md"
         />
-        <button
-          className="absolute right-5 text-white text-3xl hover:text-4xl hover:text-designColor transition-all duration-300"
-          onClick={handleNext}
-        >
-          <FaArrowRight />
-        </button>
+        {images.length > 1 && (
+          <button
+            className="absolute right-5 text-white text-3xl hover:text-4xl hover:text-designColor transition-all duration-300"
+            onClick={handleNext}
+          >
+            <FaArrowRight />
+          </button>
+        )}
         <button
           className="absolute bottom-5 text-white bg-gray-800 px-4 py-2 rounded-md flex gap-2"
           onClick={downloadImage}
