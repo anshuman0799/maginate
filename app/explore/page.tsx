@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import PostCollage from "../components/PostCollage";
+import Loader from "../components/Loader";
 import { fetchImages } from "../service/imageService";
 
 const PAGE_SIZE = 20;
@@ -11,15 +12,16 @@ const CommunityPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const loadImages = async (page: number) => {
     setLoading(true);
     try {
-      const data = await fetchImages(page, PAGE_SIZE); 
+      const data = await fetchImages(page, PAGE_SIZE);
       if (data.length < PAGE_SIZE) {
         setHasMore(false);
       }
-      setImages((prevImages) => [...prevImages, ...data]); 
+      setImages((prevImages) => (page === 1 ? data : [...prevImages, ...data]));
     } catch (error) {
       console.error("Error fetching images:", error);
     }
@@ -28,6 +30,7 @@ const CommunityPage: React.FC = () => {
 
   useEffect(() => {
     loadImages(page);
+    setPageLoading(false);
   }, [page]);
 
   const handleScroll = () => {
@@ -47,6 +50,7 @@ const CommunityPage: React.FC = () => {
 
   return (
     <section className="w-full h-full pt-10 md:pt-20 flex flex-col gap-10 pl-5 pr-5">
+      {(pageLoading || loading) && <Loader />}{" "}
       <div className="flex flex-col lg:flex-row justify-center">
         <h1 className="text-2xl md:text-3xl font-titleFont text-center leading-6">
           Explore Inspiring AI Art<span className="text-bodyColor">.</span>
@@ -55,7 +59,6 @@ const CommunityPage: React.FC = () => {
           From Our<span className="text-designColor"> Community</span>!
         </h1>
       </div>
-
       <div className="flex flex-col gap-5 w-full items-center">
         <div className="flex flex-col gap-2 w-[85%] lg:w-[45%] relative">
           <div className="relative">
@@ -75,16 +78,12 @@ const CommunityPage: React.FC = () => {
           </p>
         </div>
       </div>
-
-      {/* Use the new PostCollage component instead of ImageArea */}
       <PostCollage images={images} />
-
       {loading && (
         <div className="text-center py-4">
           <span className="animate-spin w-10 h-10 border-4 border-t-transparent border-white rounded-full"></span>
         </div>
       )}
-
       {!hasMore && (
         <p className="text-gray-400 text-center">No more images to load.</p>
       )}
