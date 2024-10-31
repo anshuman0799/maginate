@@ -3,6 +3,7 @@ import axios from "axios";
 const BASE_URL = "http://localhost:8080/";
 const API_URL = BASE_URL + "api/images/generate-image";
 const POST_IMAGE_URL = BASE_URL + "api/images/post-image";
+const FETCH_IMAGES_URL = BASE_URL + "api/images";
 
 export const generateImage = async (data) => {
   try {
@@ -55,6 +56,32 @@ export const postImage = async (data) => {
       throw {
         status: error.response.status,
         message: error.response.data?.message || "Error posting image",
+      };
+    } else {
+      throw new Error("Network Error: " + error.message);
+    }
+  }
+};
+
+// fetching images with pagination
+export const fetchImages = async (page, size) => {
+  try {
+    const response = await axios.get(
+      `${FETCH_IMAGES_URL}?page=${page}&size=${size}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.data);
+    return response.data; // Return the response data to the calling function
+  } catch (error) {
+    // Check if the error is an Axios error and has a response
+    if (axios.isAxiosError(error) && error.response) {
+      throw {
+        status: error.response.status,
+        message: error.response.data?.message || "Error fetching images",
       };
     } else {
       throw new Error("Network Error: " + error.message);

@@ -86,7 +86,6 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
   };
 
   useEffect(() => {
-    // Add event listeners for key navigation
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
