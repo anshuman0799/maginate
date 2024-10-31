@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import GenerateForm from "./components/GenerateForm";
 import ImageArea from "./components/ImageArea";
 import { generateImage, postImage } from "./service/imageService";
 import SelectImagesPopover from "./components/SelecteImagesPopover";
-import Loader from "./components/Loader"; // Import the loader component
+import Loader from "./components/Loader";
 
 interface GeneratedImageData {
   id: string;
@@ -13,6 +14,7 @@ interface GeneratedImageData {
 }
 
 export default function Home() {
+  const router = useRouter();
   const [prompt, setPrompt] = useState("");
   const [selectedRatio, setSelectedRatio] = useState("1:1");
   const [numImages, setNumImages] = useState(1);
@@ -27,10 +29,9 @@ export default function Home() {
   const [isImageGenerated, setIsImageGenerated] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [creatorName, setCreatorName] = useState("");
-  const [pageLoading, setPageLoading] = useState(true); // Page loading state
+  const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
-    // Set page loading to false after initial load
     setPageLoading(false);
   }, []);
 
@@ -84,6 +85,7 @@ export default function Home() {
       const response = await postImage(postData);
       console.log("Post Image response:", response);
       setIsPopoverOpen(false);
+      router.push("/explore");
     } catch (error) {
       handleError(error);
     } finally {
@@ -117,7 +119,8 @@ export default function Home() {
 
   return (
     <section className="w-full pt-10 md:pt-20 flex flex-col gap-10 lg:flex-row pl-5 pr-5">
-      {pageLoading && <Loader />} {/* Show Loader only during page load */}
+      {(pageLoading || isLoading.post) && <Loader />}{" "}
+      {/* Show Loader on page load or post */}
       <GenerateForm
         prompt={prompt}
         setPrompt={setPrompt}
