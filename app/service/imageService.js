@@ -4,7 +4,9 @@ const BASE_URL = "http://localhost:8080/";
 const API_URL = BASE_URL + "api/images/generate-image";
 const POST_IMAGE_URL = BASE_URL + "api/images/post-image";
 const FETCH_IMAGES_URL = BASE_URL + "api/images";
+const SEARCH_IMAGES_URL = BASE_URL + "api/images/search";
 
+// Method to generate an image
 export const generateImage = async (data) => {
   try {
     const response = await axios.post(API_URL, {
@@ -18,9 +20,8 @@ export const generateImage = async (data) => {
       },
     });
     console.log(response.data);
-    return response.data; // Return the response data to the calling function
+    return response.data;
   } catch (error) {
-    // Check if the error is an Axios error and has a response
     if (axios.isAxiosError(error) && error.response) {
       throw {
         status: error.response.status,
@@ -32,7 +33,7 @@ export const generateImage = async (data) => {
   }
 };
 
-// New method for posting images
+// Method to post an image
 export const postImage = async (data) => {
   try {
     const response = await axios.post(POST_IMAGE_URL, {
@@ -49,9 +50,8 @@ export const postImage = async (data) => {
       output: data.output,
     });
     console.log(response.data);
-    return response.data; // Return the response data to the calling function
+    return response.data;
   } catch (error) {
-    // Check if the error is an Axios error and has a response
     if (axios.isAxiosError(error) && error.response) {
       throw {
         status: error.response.status,
@@ -63,7 +63,7 @@ export const postImage = async (data) => {
   }
 };
 
-// fetching images with pagination
+// Method to fetch images with pagination
 export const fetchImages = async (page, size) => {
   try {
     const response = await axios.get(
@@ -75,13 +75,34 @@ export const fetchImages = async (page, size) => {
       }
     );
     console.log(response.data);
-    return response.data; // Return the response data to the calling function
+    return response.data;
   } catch (error) {
-    // Check if the error is an Axios error and has a response
     if (axios.isAxiosError(error) && error.response) {
       throw {
         status: error.response.status,
         message: error.response.data?.message || "Error fetching images",
+      };
+    } else {
+      throw new Error("Network Error: " + error.message);
+    }
+  }
+};
+
+// Method to search images
+export const searchImages = async (query) => {
+  try {
+    const response = await axios.get(`${SEARCH_IMAGES_URL}?query=${query}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw {
+        status: error.response.status,
+        message: error.response.data?.message || "Error searching images",
       };
     } else {
       throw new Error("Network Error: " + error.message);

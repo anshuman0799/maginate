@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import PostCollage from "../components/PostCollage";
 import Loader from "../components/Loader";
-import { fetchImages } from "../service/imageService";
+import { fetchImages, searchImages } from "../service/imageService";
 
 const PAGE_SIZE = 20;
 const CommunityPage: React.FC = () => {
@@ -13,6 +13,7 @@ const CommunityPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [pageLoading, setPageLoading] = useState(true);
+  const [searching, setSearching] = useState<boolean>(false);
 
   const loadImages = async (page: number) => {
     setLoading(true);
@@ -28,13 +29,39 @@ const CommunityPage: React.FC = () => {
     setLoading(false);
   };
 
+  // Debounced live search
   useEffect(() => {
-    loadImages(page);
-    setPageLoading(false);
-  }, [page]);
+    const delayDebounceFn = setTimeout(async () => {
+      if (searchText.trim()) {
+        setSearching(true);
+        try {
+          const searchData = await searchImages(searchText);
+          setImages(searchData); // Reset images state with search results
+          setHasMore(false); // Disable pagination while searching
+        } catch (error) {
+          console.error("Error searching images:", error);
+        }
+        setSearching(false);
+      } else {
+        // Reload images with pagination if search text is cleared
+        setPage(1);
+        loadImages(1);
+        setHasMore(true);
+      }
+    }, 500); // 500ms debounce delay
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchText]);
+
+  useEffect(() => {
+    if (!searchText) {
+      loadImages(page);
+      setPageLoading(false);
+    }
+  }, [page, searchText]);
 
   const handleScroll = () => {
-    if (!hasMore || loading) return;
+    if (!hasMore || loading || searchText) return; // Skip pagination during search
     if (
       window.innerHeight + document.documentElement.scrollTop !==
       document.documentElement.offsetHeight
@@ -46,11 +73,11 @@ const CommunityPage: React.FC = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasMore, loading]);
+  }, [hasMore, loading, searchText]);
 
   return (
     <section className="w-full h-full pt-10 md:pt-20 flex flex-col gap-10 pl-5 pr-5">
-      {(pageLoading || loading) && <Loader />}{" "}
+      {(pageLoading || (loading && !searchText) || searching) && <Loader />}
       <div className="flex flex-col lg:flex-row justify-center">
         <h1 className="text-2xl md:text-3xl font-titleFont text-center leading-6">
           Explore Inspiring AI Art<span className="text-bodyColor">.</span>
@@ -79,12 +106,12 @@ const CommunityPage: React.FC = () => {
         </div>
       </div>
       <PostCollage images={images} />
-      {loading && (
+      {loading && !searching && (
         <div className="text-center py-4">
           <span className="animate-spin w-10 h-10 border-4 border-t-transparent border-white rounded-full"></span>
         </div>
       )}
-      {!hasMore && (
+      {!hasMore && !searchText && (
         <p className="text-gray-400 text-center">No more images to load.</p>
       )}
     </section>
