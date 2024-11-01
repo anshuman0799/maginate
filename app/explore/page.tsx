@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import PostCollage from "../components/PostCollage";
+import SimpleCollage from "../components/SimpleCollage"; // Import the new component
 import Loader from "../components/Loader";
 import { fetchImages, searchImages } from "../service/imageService";
 
@@ -105,7 +106,11 @@ const CommunityPage: React.FC = () => {
           </p>
         </div>
       </div>
-      <PostCollage images={images} />
+      {searchText ? (
+        <SimpleCollage images={images} /> // Display SimpleCollage if searching
+      ) : (
+        <PostCollage images={images} /> // Default to PostCollage
+      )}
       {loading && !searching && (
         <div className="text-center py-4">
           <span className="animate-spin w-10 h-10 border-4 border-t-transparent border-white rounded-full"></span>
