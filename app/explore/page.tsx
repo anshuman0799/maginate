@@ -117,7 +117,10 @@ const CommunityPage: React.FC = () => {
         </div>
       )}
       {!hasMore && !searchText && (
-        <p className="text-gray-400 text-center">No more images to load.</p>
+        <p className="text-gray-400 text-center">
+          You are all caught up. here are no more posts to see right now, but
+          check back soon for more :)
+        </p>
       )}
     </section>
   );
