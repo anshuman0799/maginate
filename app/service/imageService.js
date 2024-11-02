@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/";
+const BASE_URL =
+  "http://ec2-3-149-233-160.us-east-2.compute.amazonaws.com:8081/";
 const API_URL = BASE_URL + "api/images/generate-image";
 const POST_IMAGE_URL = BASE_URL + "api/images/post-image";
 const FETCH_IMAGES_URL = BASE_URL + "api/images";
@@ -19,7 +20,6 @@ export const generateImage = async (data) => {
         output_quality: data.imgQuality * 10,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -49,7 +49,6 @@ export const postImage = async (data) => {
       },
       output: data.output,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -74,7 +73,6 @@ export const fetchImages = async (page, size) => {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -96,7 +94,6 @@ export const searchImages = async (query) => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
