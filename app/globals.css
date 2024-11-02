@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .navItem {
+    @apply px-4 py-1 rounded-lg text-white text-sm md:text-lg font-semibold bg-designColor flex items-center space-x-2;
+  }
+
+  .navbar {
+    @apply flex justify-end items-center size-full p-7 lg:px-40;
+  }
+
+  .logoImage {
+    @apply pt-8 px-4 md:px-6;
+  }
+
+  .navContainer {
+    @apply flex size-full bg-gray-800;
+  }
+
+  .btnGenerate {
+    @apply px-4 py-1 rounded-lg text-white text-lg md:text-lg font-medium bg-blue-600 flex items-center space-x-2;
+  }
+
+  .btnPost {
+    @apply px-4 py-1 rounded-lg text-white text-lg md:text-lg font-medium bg-violet-600 flex items-center space-x-2;
+  }
+
+  .contactIcon {
+    @apply w-20 h-10 bg-gray-800 text-white text-2xl flex-col hover:-translate-y-1 transition-all hover:text-designColor cursor-pointer duration-300;
+  }
+
+  .loader {
+    @apply flex items-center justify-center;
+  }
+
+  .loader span {
+    @apply w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin;
+  }
+
+  .overflow-hidden {
+    overflow: hidden;
+  }
+}
