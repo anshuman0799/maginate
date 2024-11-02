@@ -4,7 +4,7 @@ import { IoMail } from "react-icons/io5";
 import toast, { Toaster } from "react-hot-toast";
 
 export const Footer = () => {
-  const copyToClipboard = (event) => {
+  const copyToClipboard = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     const email = "anshuman0799@gmail.com";
     navigator.clipboard
