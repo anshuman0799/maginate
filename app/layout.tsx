@@ -15,12 +15,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={"bg-bodyColor text-white"}>
-        <Navbar></Navbar>
+        <Navbar />
         <div className="md:max-w-screen-2xl mx-auto md:px-20 mb-20">
           {children}
         </div>
-        <Footer></Footer>
+        <Footer />
       </body>
     </html>
   );
