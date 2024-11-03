@@ -112,7 +112,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
           </button>
         )}
         {/* Display creator and prompt */}
-        <div className="absolute bottom-10 lg:bottom-0 left-25 bg-black bg-opacity-60 p-2 rounded-md flex flex-col w-[90%] lg:w-[70%] overflow-hidden justify-center">
+        <div className="absolute bottom-0 lg:bottom-0 left-25 bg-black bg-opacity-60 p-2 rounded-md flex flex-col w-[90%] lg:w-[70%] overflow-hidden justify-center">
           <div className="flex gap-1 items-center text-white">
             <FaUser className="mr-1" />
             <h2 className="text-xs lg:text-sm">{creator}</h2>
