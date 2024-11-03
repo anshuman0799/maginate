@@ -38,9 +38,9 @@ const SimpleCollage: React.FC<SimpleCollageProps> = ({ images }) => {
               <img
                 src={image.postUrl}
                 alt={image.prompt}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:opacity-40 rounded-lg"
+                className="w-full h-full object-cover transition-transform duration-300 lg:group-hover:opacity-40 rounded-lg"
               />
-              <div className="absolute bottom-0 left-0 right-0 p-2 bg-black bg-opacity-0 flex flex-col text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute bottom-0 left-0 right-0 p-2 bg-black bg-opacity-0 flex flex-col text-white opacity-0 lg:group-hover:opacity-100 lg:transition-opacity lg:duration-300">
                 <div className="flex items-center text-left">
                   <div className="inline-flex items-center justify-left w-6 h-6">
                     <FaUser style={{ fontSize: "0.75rem" }} />
