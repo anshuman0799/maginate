@@ -1,11 +1,19 @@
 import axios from "axios";
 
-const BASE_URL =
-  "http://ec2-3-149-233-160.us-east-2.compute.amazonaws.com:8081/";
-const API_URL = BASE_URL + "api/images/generate-image";
-const POST_IMAGE_URL = BASE_URL + "api/images/post-image";
-const FETCH_IMAGES_URL = BASE_URL + "api/images";
-const SEARCH_IMAGES_URL = BASE_URL + "api/images/search";
+// For localhost deployment
+// const BASE_URL =
+//   "http://ec2-3-149-233-160.us-east-2.compute.amazonaws.com:8081/";
+// const API_URL = BASE_URL + "api/images/generate-image";
+// const POST_IMAGE_URL = BASE_URL + "api/images/post-image";
+// const FETCH_IMAGES_URL = BASE_URL + "api/images";
+// const SEARCH_IMAGES_URL = BASE_URL + "api/images/search";
+
+// For Vercel deployment
+const BASE_URL = "";
+const API_URL = "/api/images/generate-image";
+const POST_IMAGE_URL = "/api/images/post-image";
+const FETCH_IMAGES_URL = "/api/images";
+const SEARCH_IMAGES_URL = "/api/images/search";
 
 // Method to generate an image
 export const generateImage = async (data) => {

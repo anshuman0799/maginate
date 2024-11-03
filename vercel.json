@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/images/generate-image",
+      "destination": "http://ec2-3-149-233-160.us-east-2.compute.amazonaws.com:8081/api/images/generate-image"
+    },
+    {
+      "source": "/api/images/post-image",
+      "destination": "http://ec2-3-149-233-160.us-east-2.compute.amazonaws.com:8081/api/images/post-image"
+    },
+    {
+      "source": "/api/images",
+      "destination": "http://ec2-3-149-233-160.us-east-2.compute.amazonaws.com:8081/api/images"
+    },
+    {
+      "source": "/api/images/search",
+      "destination": "http://ec2-3-149-233-160.us-east-2.compute.amazonaws.com:8081/api/images/search"
+    }
+  ]
+}

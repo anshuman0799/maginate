@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import PostCollage from "../components/PostCollage";
-import SimpleCollage from "../components/SimpleCollage"; // Import the new component
+import SimpleCollage from "../components/SimpleCollage";
 import Loader from "../components/Loader";
 import { fetchImages, searchImages } from "../service/imageService";
 
@@ -97,7 +97,7 @@ const CommunityPage: React.FC = () => {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               placeholder="Search images, prompts, or creators..."
-              className="w-full p-3 pl-10 text-sm font-bodyFont text-white bg-bodyColor rounded-md resize-none border-[0.5px] border-gray-300 focus:border-designColor focus:outline-none"
+              className="w-full p-3 pl-10 text-xs lg:text-sm font-bodyFont text-white bg-bodyColor rounded-md resize-none border-[0.5px] border-gray-300 focus:border-designColor focus:outline-none"
             />
             <FaSearch className="absolute left-3 top-[23px] transform -translate-y-1/2 text-gray-400" />
           </div>
