@@ -10,8 +10,8 @@ interface ImageViewerProps {
   currentIndex: number;
   onClose: () => void;
   onNavigate: (index: number) => void;
-  creator: string; // New prop for creator name
-  prompt: string; // New prop for prompt
+  creator: string;
+  prompt: string;
 }
 
 const ImageViewer: React.FC<ImageViewerProps> = ({
@@ -19,8 +19,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
   currentIndex,
   onClose,
   onNavigate,
-  creator, // Destructure creator prop
-  prompt, // Destructure prompt prop
+  creator,
+  prompt,
 }) => {
   useBodyScrollLock(); // Disable background scrolling
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -111,8 +111,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
             <FaArrowRight />
           </button>
         )}
-        {/* Display creator and prompt with icons at bottom left */}
-        <div className="absolute bottom-20 lg:bottom-0 left-25 bg-black bg-opacity-60 p-2 rounded-md flex flex-col w-[90%] lg:w-[70%] overflow-hidden justify-center">
+        {/* Display creator and prompt */}
+        <div className="absolute bottom-10 lg:bottom-0 left-25 bg-black bg-opacity-60 p-2 rounded-md flex flex-col w-[90%] lg:w-[70%] overflow-hidden justify-center">
           <div className="flex gap-1 items-center text-white">
             <FaUser className="mr-1" />
             <h2 className="text-xs lg:text-sm">{creator}</h2>
