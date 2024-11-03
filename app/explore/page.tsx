@@ -7,7 +7,7 @@ import Loader from "../components/Loader";
 import { fetchImages, searchImages } from "../service/imageService";
 import { useMediaQuery } from "react-responsive";
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 60;
 const CommunityPage: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [images, setImages] = useState<any[]>([]);
