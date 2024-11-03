@@ -23,6 +23,12 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
   const downloadImage = async () => {
     const imageUrl = images[currentIndex];
 
+    // Ensure imageUrl is defined
+    if (!imageUrl) {
+      console.error("Image URL is undefined");
+      return;
+    }
+
     try {
       const response = await fetch(imageUrl);
       if (!response.ok) throw new Error("Network response was not ok");
@@ -30,7 +36,11 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
       const blob = await response.blob();
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = `maginate-${currentIndex + 1}.png`;
+
+      // Extract the file extension from the URL
+      const fileExtension = imageUrl.split(".").pop()?.split("?")[0] || "jpg"; // Fallback to 'jpg' if undefined
+      link.download = `maginate-${currentIndex + 1}.${fileExtension}`;
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
