@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "MaginateAI",
@@ -22,6 +23,7 @@ export default function RootLayout({
         <Navbar />
         <div className="md:max-w-screen-2xl mx-auto md:px-20 mb-20">
           {children}
+          <Analytics />
         </div>
         <Footer />
       </body>
