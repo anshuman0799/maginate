@@ -28,7 +28,7 @@ const SimpleCollage: React.FC<SimpleCollageProps> = ({ images }) => {
   return (
     <div className="p-4">
       {images.length > 0 ? (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {images.map((image, index) => (
             <div
               key={image._id}

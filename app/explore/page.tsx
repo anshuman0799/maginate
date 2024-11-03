@@ -5,6 +5,7 @@ import PostCollage from "../components/PostCollage";
 import SimpleCollage from "../components/SimpleCollage";
 import Loader from "../components/Loader";
 import { fetchImages, searchImages } from "../service/imageService";
+import { useMediaQuery } from "react-responsive";
 
 const PAGE_SIZE = 20;
 const CommunityPage: React.FC = () => {
@@ -15,6 +16,9 @@ const CommunityPage: React.FC = () => {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [pageLoading, setPageLoading] = useState(true);
   const [searching, setSearching] = useState<boolean>(false);
+
+  // Check if the screen width is below lg (1024px)
+  const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
 
   const loadImages = async (page: number) => {
     setLoading(true);
@@ -107,7 +111,8 @@ const CommunityPage: React.FC = () => {
           </p>
         </div>
       </div>
-      {searchText ? (
+      {/* Conditionally render SimpleCollage for mobile and PostCollage for larger screens */}
+      {isMobile || searchText ? (
         <SimpleCollage images={images} />
       ) : (
         <PostCollage images={images} />
