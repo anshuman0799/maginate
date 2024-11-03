@@ -28,6 +28,9 @@ const CommunityPage: React.FC = () => {
       console.error("Error fetching images:", error);
     }
     setLoading(false);
+    if (page === 1) {
+      setPageLoading(false); // Only stop showing loader after initial load
+    }
   };
 
   // Debounced live search
@@ -37,19 +40,18 @@ const CommunityPage: React.FC = () => {
         setSearching(true);
         try {
           const searchData = await searchImages(searchText);
-          setImages(searchData); // Reset images state with search results
-          setHasMore(false); // Disable pagination while searching
+          setImages(searchData);
+          setHasMore(false);
         } catch (error) {
           console.error("Error searching images:", error);
         }
         setSearching(false);
       } else {
-        // Reload images with pagination if search text is cleared
         setPage(1);
         loadImages(1);
         setHasMore(true);
       }
-    }, 500); // 500ms debounce delay
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchText]);
@@ -57,12 +59,11 @@ const CommunityPage: React.FC = () => {
   useEffect(() => {
     if (!searchText) {
       loadImages(page);
-      setPageLoading(false);
     }
   }, [page, searchText]);
 
   const handleScroll = () => {
-    if (!hasMore || loading || searchText) return; // Skip pagination during search
+    if (!hasMore || loading || searchText) return;
     if (
       window.innerHeight + document.documentElement.scrollTop !==
       document.documentElement.offsetHeight
@@ -78,7 +79,7 @@ const CommunityPage: React.FC = () => {
 
   return (
     <section className="w-full h-full pt-10 md:pt-20 flex flex-col gap-10 pl-5 pr-5">
-      {(pageLoading || (loading && !searchText) || searching) && <Loader />}
+      {pageLoading && <Loader />}
       <div className="flex flex-col lg:flex-row justify-center">
         <h1 className="text-2xl md:text-3xl font-titleFont text-center leading-6">
           Explore Inspiring AI Art<span className="text-bodyColor">.</span>
@@ -107,18 +108,18 @@ const CommunityPage: React.FC = () => {
         </div>
       </div>
       {searchText ? (
-        <SimpleCollage images={images} /> // Display SimpleCollage if searching
+        <SimpleCollage images={images} />
       ) : (
-        <PostCollage images={images} /> // Default to PostCollage
+        <PostCollage images={images} />
       )}
-      {loading && !searching && (
+      {loading && !searching && !pageLoading && (
         <div className="text-center py-4">
           <span className="animate-spin w-10 h-10 border-4 border-t-transparent border-white rounded-full"></span>
         </div>
       )}
       {!hasMore && !searchText && (
         <p className="text-gray-400 text-center">
-          You are all caught up. here are no more posts to see right now, but
+          You are all caught up. There are no more posts to see right now, but
           check back soon for more :)
         </p>
       )}
