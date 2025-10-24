@@ -2,19 +2,19 @@
   "rewrites": [
     {
       "source": "/api/images/generate-image",
-      "destination": "https://maginate-backend.onrender.com/api/images/generate-image"
+      "destination": "https://maginate-backend-zxgj.onrender.com/api/images/generate-image"
     },
     {
       "source": "/api/images/post-image",
-      "destination": "https://maginate-backend.onrender.com/api/images/post-image"
+      "destination": "https://maginate-backend-zxgj.onrender.com/api/images/post-image"
     },
     {
       "source": "/api/images",
-      "destination": "https://maginate-backend.onrender.com/api/images"
+      "destination": "https://maginate-backend-zxgj.onrender.com/api/images"
     },
     {
       "source": "/api/images/search",
-      "destination": "https://maginate-backend.onrender.com/api/images/search"
+      "destination": "https://maginate-backend-zxgj.onrender.com/api/images/search"
     }
   ]
 }
